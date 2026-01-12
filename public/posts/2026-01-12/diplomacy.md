@@ -10,4 +10,3 @@ This shift, while subtle, marks a significant departure from the isolationist rh
 
 As we look toward the next decade, the ability to find common ground in a fragmented digital landscape will be the defining skill of the new diplomatic class.
 
-add some lines for testing
