@@ -40,7 +40,7 @@ function parseMarkdown(md: string, date: string, filename: string): NewsItem {
 
 export async function fetchAllNews(): Promise<NewsItem[]> {
   try {
-    const manifestResponse = await fetch('posts/manifest.json');
+    const manifestResponse = await fetch('./posts/manifest.json');
     if (!manifestResponse.ok) throw new Error("Failed to load manifest");
     
     const manifest = await manifestResponse.json();
@@ -50,7 +50,7 @@ export async function fetchAllNews(): Promise<NewsItem[]> {
       const date = edition.date;
       const promises = edition.articles.map(async (filename: string) => {
         try {
-          const res = await fetch(`posts/${date}/${filename}`);
+          const res = await fetch(`./posts/${date}/${filename}`);
           if (!res.ok) return null;
           const text = await res.text();
           return parseMarkdown(text, date, filename);
