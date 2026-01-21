@@ -4,8 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build && cp public/.nojekyll dist/.nojekyll",
+    "dev": "node generate-manifest.js && vite",
+    "build": "node generate-manifest.js && vite build && cp public/.nojekyll dist/.nojekyll",
     "preview": "vite preview",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist -t"
