@@ -20,7 +20,7 @@ const ArchiveView: React.FC<ArchiveViewProps> = ({ allNews, onDateSelect, onClos
         daysMap.set(item.date, {
           date: item.date,
           headline: item.title,
-          image_url: item.image_url ? `posts/${item.date}/archive.jpg` : null
+         image_url: `${import.meta.env.BASE_URL}posts/${item.date}/archive.jpg`
         });
       }
     });
