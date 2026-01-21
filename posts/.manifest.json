@@ -1,0 +1,33 @@
+
+{
+  "editions": [
+    {
+      "date": "2026-01-12",
+      "articles": ["diplomacy.md", "analog.md"]
+    },
+    {
+      "date": "2026-01-11",
+      "articles": ["economy.md", "oasis.md"]
+    },
+    {
+      "date": "2026-01-10",
+      "articles": ["silence.md"]
+    },
+    {
+      "date": "2026-01-09",
+      "articles": ["space.md", "social.md"]
+    },
+    {
+      "date": "2026-01-08",
+      "articles": ["sleep.md", "fashion.md"]
+    },
+    {
+      "date": "2026-01-07",
+      "articles": ["ai.md", "travel.md"]
+    },
+    {
+      "date": "2026-01-06",
+      "articles": ["food.md", "sound.md"]
+    }
+  ]
+}
