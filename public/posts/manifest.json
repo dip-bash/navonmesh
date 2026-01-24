@@ -1,6 +1,16 @@
 {
   "editions": [
     {
+      "date": "2026-01-24",
+      "articles": [
+        "apple.md",
+        "ms.md",
+        "nvidia.md",
+        "openai.md",
+        "vibe_coding.md"
+      ]
+    },
+    {
       "date": "2026-01-21",
       "articles": [
         "OpenAIvsAnthropic.md",
