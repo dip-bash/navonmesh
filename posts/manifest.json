@@ -1,6 +1,27 @@
 {
   "editions": [
     {
+      "date": "2026-03-15",
+      "articles": [
+        "culture_film.md",
+        "economy_markets.md",
+        "environment_climate.md",
+        "general_community.md",
+        "global_diplomacy.md",
+        "tech_quantum.md"
+      ]
+    },
+    {
+      "date": "2026-02-15",
+      "articles": [
+        "culture_theater.md",
+        "economy_inflation.md",
+        "environment_ocean.md",
+        "global_trade.md",
+        "tech_security.md"
+      ]
+    },
+    {
       "date": "2026-01-24",
       "articles": [
         "apple.md",
@@ -21,60 +42,6 @@
         "nvidiartx.md",
         "openai.md",
         "tsmc.md"
-      ]
-    },
-    {
-      "date": "2026-01-13",
-      "articles": [
-        "test.md"
-      ]
-    },
-    {
-      "date": "2026-01-12",
-      "articles": [
-        "analog.md",
-        "diplomacy.md"
-      ]
-    },
-    {
-      "date": "2026-01-11",
-      "articles": [
-        "economy.md",
-        "oasis.md"
-      ]
-    },
-    {
-      "date": "2026-01-10",
-      "articles": [
-        "silence.md"
-      ]
-    },
-    {
-      "date": "2026-01-09",
-      "articles": [
-        "social.md",
-        "space.md"
-      ]
-    },
-    {
-      "date": "2026-01-08",
-      "articles": [
-        "fashion.md",
-        "sleep.md"
-      ]
-    },
-    {
-      "date": "2026-01-07",
-      "articles": [
-        "ai.md",
-        "travel.md"
-      ]
-    },
-    {
-      "date": "2026-01-06",
-      "articles": [
-        "food.md",
-        "sound.md"
       ]
     }
   ]
