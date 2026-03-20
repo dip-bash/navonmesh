@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useCallback, memo } from 'react';
 import { NewsItem } from '../types';
 import ProgressiveImage from './ProgressiveImage';
+import { getFallbackImage } from '../config/images';
 
 interface FeedViewProps {
   news: NewsItem[];
@@ -31,10 +32,10 @@ const ScrollProgressBar = () => {
 };
 
 // Memoized FeedItem to prevent re-renders on scroll
-const FeedItem = memo(({ item, getFallback }: { item: NewsItem, getFallback: (cat: string) => string }) => {
+const FeedItem = memo(({ item, getFallback }: { item: NewsItem; getFallback: (cat: string) => string }) => {
   const [imageFailed, setImageFailed] = useState(false);
 
-  const triggerHaptic = useCallback(() => {
+  const triggerHaptic = useCallback((e: React.MouseEvent<HTMLElement>) => {
     if ('vibrate' in navigator) navigator.vibrate(10);
   }, []);
 
@@ -71,7 +72,7 @@ const FeedItem = memo(({ item, getFallback }: { item: NewsItem, getFallback: (ca
 
         <div className="font-body-serif text-lg leading-relaxed text-[#222222] text-justify space-y-6">
           {item.content.split('\n\n').map((para, idx) => (
-            <p key={idx} className={`${idx === 0 ? 'first-letter:text-6xl first-letter:font-serif first-letter:float-left first-letter:mr-3 first-letter:mt-1 first-letter:leading-none' : ''}`}>
+            <p key={`${item.id}-para-${idx}`} className={`${idx === 0 ? 'first-letter:text-6xl first-letter:font-serif first-letter:float-left first-letter:mr-3 first-letter:mt-1 first-letter:leading-none' : ''}`}>
               {para.trim()}
             </p>
           ))}
@@ -82,17 +83,6 @@ const FeedItem = memo(({ item, getFallback }: { item: NewsItem, getFallback: (ca
 });
 
 const FeedView: React.FC<FeedViewProps> = ({ news, date }) => {
-  const getFallbackImage = useCallback((category: string) => {
-    const map: Record<string, string> = {
-      'GLOBAL AFFAIRS': 'https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?auto=format&fit=crop&q=80',
-      'TECHNOLOGY': 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&q=80',
-      'ECONOMY': 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80',
-      'ENVIRONMENT': 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&q=80',
-      'CULTURE': 'https://images.unsplash.com/photo-1518998053574-53f0201f9b0d?auto=format&fit=crop&q=80',
-      'GENERAL': 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&q=80'
-    };
-    return map[category] || map['GENERAL'];
-  }, []);
 
   const formattedDate = new Date(date).toLocaleDateString('en-US', {
     weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
@@ -125,8 +115,8 @@ const FeedView: React.FC<FeedViewProps> = ({ news, date }) => {
         <div className="space-y-1">
           <p className="font-sans text-[10px] uppercase tracking-widest font-bold opacity-30">© 2026 Navonmesh</p>
           <p className="font-sans text-[10px] uppercase tracking-widest opacity-30">Curated by Dip</p>
-          <a href="mailto:saumyadip.social@gmail.com" className="font-sans text-[10px] uppercase tracking-widest opacity-50 hover:opacity-100 transition-opacity block">
-            saumyadip.social@gmail.com
+          <a href={`mailto:${import.meta.env.VITE_CONTACT_EMAIL || 'contact@example.com'}`} className="font-sans text-[10px] uppercase tracking-widest opacity-50 hover:opacity-100 transition-opacity block">
+            {import.meta.env.VITE_CONTACT_EMAIL || 'contact@example.com'}
           </a>
         </div>
       </footer>

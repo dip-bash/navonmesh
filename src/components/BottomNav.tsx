@@ -23,13 +23,15 @@ const BottomNav: React.FC<BottomNavProps> = ({ currentView, currentDate, latestD
   }, []);
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-[100] bg-[#F9F9F9]/95 backdrop-blur-xl border-t border-black/5 safe-bottom h-16 shadow-[0_-5px_20px_rgba(0,0,0,0.03)]">
+    <nav className="fixed bottom-0 left-0 right-0 z-[100] bg-[#F9F9F9]/95 backdrop-blur-xl border-t border-black/5 safe-bottom h-16 shadow-[0_-5px_20px_rgba(0,0,0,0.03)]" role="navigation" aria-label="Main navigation">
       <div className="flex items-stretch h-full max-w-lg mx-auto">
         <button 
           onClick={() => handleAction(() => onSwitch('index'))}
-          className={`flex-1 flex flex-col items-center justify-center gap-1.5 transition-all active:scale-90 ${
+          className={`flex-1 flex flex-col items-center justify-center gap-1.5 transition-all active:scale-90 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-black ${
             currentView === 'index' ? 'text-black' : 'text-black/40'
           }`}
+          aria-label="View index"
+          aria-current={currentView === 'index' ? 'page' : undefined}
         >
           <span className="font-sans text-[10px] font-bold uppercase tracking-widest">Index</span>
           <div className={`h-1 w-1 rounded-full bg-black transition-all transform ${currentView === 'index' ? 'scale-100' : 'scale-0'}`}></div>
@@ -37,9 +39,11 @@ const BottomNav: React.FC<BottomNavProps> = ({ currentView, currentDate, latestD
 
         <button 
           onClick={() => handleAction(onMidClick)}
-          className={`flex-1 flex flex-col items-center justify-center gap-1.5 transition-all active:scale-90 ${
+          className={`flex-1 flex flex-col items-center justify-center gap-1.5 transition-all active:scale-90 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-black ${
             currentView === 'feed' ? 'text-black' : 'text-black/40'
           }`}
+          aria-label="View today"
+          aria-current={currentView === 'feed' ? 'page' : undefined}
         >
           <span className="font-serif text-xl italic leading-none font-bold">{centerLabel}</span>
           <div className={`h-1 w-1 rounded-full bg-black transition-all transform ${currentView === 'feed' ? 'scale-100' : 'scale-0'}`}></div>
@@ -47,9 +51,11 @@ const BottomNav: React.FC<BottomNavProps> = ({ currentView, currentDate, latestD
 
         <button 
           onClick={() => handleAction(() => onSwitch('archive'))}
-          className={`flex-1 flex flex-col items-center justify-center gap-1.5 transition-all active:scale-90 ${
+          className={`flex-1 flex flex-col items-center justify-center gap-1.5 transition-all active:scale-90 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-black ${
             currentView === 'archive' ? 'text-black' : 'text-black/40'
           }`}
+          aria-label="View archive"
+          aria-current={currentView === 'archive' ? 'page' : undefined}
         >
           <span className="font-sans text-[10px] font-bold uppercase tracking-widest">Archive</span>
           <div className={`h-1 w-1 rounded-full bg-black transition-all transform ${currentView === 'archive' ? 'scale-100' : 'scale-0'}`}></div>

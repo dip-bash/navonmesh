@@ -10,7 +10,23 @@ interface ProgressiveImageProps {
 }
 
 // Cache of loaded URLs to prevent flickering between loads in a session
+// Limited to 500 entries to prevent unbounded memory growth
 const loadedImageCache = new Set<string>();
+const MAX_CACHE_SIZE = 500;
+
+/**
+ * Adds a URL to the cache with size limit
+ * If cache exceeds MAX_CACHE_SIZE, oldest entry is removed
+ */
+function addToCache(url: string) {
+  if (loadedImageCache.size >= MAX_CACHE_SIZE && !loadedImageCache.has(url)) {
+    const firstEntry = loadedImageCache.values().next().value;
+    if (firstEntry) {
+      loadedImageCache.delete(firstEntry);
+    }
+  }
+  loadedImageCache.add(url);
+}
 
 const ProgressiveImage: React.FC<ProgressiveImageProps> = memo(({ src, fallbackBase, alt, className, onFailure }) => {
   const [isHDLoaded, setIsHDLoaded] = useState(loadedImageCache.has(src));
@@ -33,30 +49,30 @@ const ProgressiveImage: React.FC<ProgressiveImageProps> = memo(({ src, fallbackB
       img.src = url;
       img.onload = () => {
         if (activeLoadRef.current === src) {
-          loadedImageCache.add(src);
+          addToCache(src);
           setCurrentHdSrc(url);
           setIsHDLoaded(true);
         }
       };
-      img.onerror = () => {
-        // Fallback logic
-        if (url !== fallbackBase && activeLoadRef.current === src) {
-          const fallbackImg = new Image();
-          fallbackImg.src = fallbackBase;
-          fallbackImg.onload = () => {
-            if (activeLoadRef.current === src) {
-              loadedImageCache.add(src);
-              setCurrentHdSrc(fallbackBase);
-              setIsHDLoaded(true);
-            }
-          };
-          fallbackImg.onerror = () => {
-            if (activeLoadRef.current === src && onFailure) onFailure();
-          };
-        } else if (activeLoadRef.current === src && onFailure) {
-          onFailure();
-        }
-      };
+       img.onerror = () => {
+         // Fallback logic
+         if (url !== fallbackBase && activeLoadRef.current === src) {
+           const fallbackImg = new Image();
+           fallbackImg.src = fallbackBase;
+            fallbackImg.onload = () => {
+              if (activeLoadRef.current === src) {
+                addToCache(`${src}-fallback`);
+                setCurrentHdSrc(fallbackBase);
+                setIsHDLoaded(true);
+              }
+            };
+           fallbackImg.onerror = () => {
+             if (activeLoadRef.current === src && onFailure) onFailure();
+           };
+         } else if (activeLoadRef.current === src && onFailure) {
+           onFailure();
+         }
+       };
     };
 
     attemptLoad(src);

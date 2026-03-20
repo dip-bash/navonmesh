@@ -6,6 +6,8 @@ import FeedView from './components/FeedView';
 import IndexOverlay from './components/IndexOverlay';
 import ArchiveView from './components/ArchiveView';
 import BottomNav from './components/BottomNav';
+import ErrorBoundary from './components/ErrorBoundary';
+import { isValidISODate } from './utils/dateUtils';
 
 const App: React.FC = () => {
   const [newsData, setNewsData] = useState<NewsItem[]>([]);
@@ -24,7 +26,7 @@ const App: React.FC = () => {
 
   const latestDate = useMemo(() => {
     if (newsData.length === 0) return '';
-    const dates = [...newsData.map(n => n.date)].sort();
+    const dates = newsData.map(n => n.date).sort();
     return dates[dates.length - 1];
   }, [newsData]);
 
@@ -33,8 +35,8 @@ const App: React.FC = () => {
 
     const handleHashChange = () => {
       const hash = window.location.hash;
-      const dateMatch = hash.match(/date=([\d-]{10})/);
-      if (dateMatch) {
+      const dateMatch = hash.match(/date=([^&]*)/);
+      if (dateMatch && isValidISODate(dateMatch[1])) {
         setCurrentDate(dateMatch[1]);
         setCurrentView('feed');
       } else if (!currentDate) {
@@ -45,12 +47,17 @@ const App: React.FC = () => {
     handleHashChange();
     window.addEventListener('hashchange', handleHashChange);
     return () => window.removeEventListener('hashchange', handleHashChange);
-  }, [isLoading, newsData, currentDate, latestDate]);
+  }, [isLoading, newsData, latestDate]);
 
   const filteredNews = useMemo(() => {
     if (!currentDate) return [];
     return newsData.filter(item => item.date === currentDate);
   }, [newsData, currentDate]);
+
+  // Sort filtered news by category alphabetically
+  const sortedNews = useMemo(() => {
+    return [...filteredNews].sort((a, b) => a.category.localeCompare(b.category));
+  }, [filteredNews]);
 
   const showView = useCallback((view: AppView) => {
     if (view === currentView) {
@@ -62,12 +69,20 @@ const App: React.FC = () => {
 
   const teleportToArticle = useCallback((id: string) => {
     setCurrentView('feed');
-    setTimeout(() => {
+    let attempts = 0;
+    const maxAttempts = 50; // ~833ms at 60fps
+    const attemptScroll = () => {
       const element = document.getElementById(`article-${id}`);
       if (element) {
         element.scrollIntoView({ behavior: 'smooth' });
+      } else if (attempts < maxAttempts) {
+        attempts++;
+        requestAnimationFrame(attemptScroll);
+      } else {
+        console.warn(`Could not locate article ${id} after ${maxAttempts} attempts`);
       }
-    }, 100);
+    };
+    requestAnimationFrame(attemptScroll);
   }, []);
 
   const handleDateSelect = useCallback((date: string) => {
@@ -106,7 +121,7 @@ const App: React.FC = () => {
             currentView === 'feed' ? 'opacity-100 z-10' : 'opacity-0 z-0 pointer-events-none'
           }`}
         >
-          <FeedView news={filteredNews} date={currentDate} />
+          <FeedView news={sortedNews} date={currentDate} />
         </div>
         
         {/* Index Overlay - PERSISTENT & ON TOP */}
@@ -116,9 +131,10 @@ const App: React.FC = () => {
           }`}
         >
           <IndexOverlay 
-            news={filteredNews} 
+            news={sortedNews} 
             onTeleport={teleportToArticle} 
             onClose={() => showView('feed')}
+            isLoading={isLoading}
           />
         </div>
 
@@ -133,6 +149,7 @@ const App: React.FC = () => {
             onDateSelect={handleDateSelect} 
             currentDate={currentDate}
             onClose={() => showView('feed')}
+            isLoading={isLoading}
           />
         </div>
       </main>
@@ -155,4 +172,10 @@ const App: React.FC = () => {
   );
 };
 
-export default App;
+export default function AppWithErrorBoundary() {
+  return (
+    <ErrorBoundary>
+      <App />
+    </ErrorBoundary>
+  );
+}

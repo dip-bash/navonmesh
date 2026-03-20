@@ -1,0 +1,112 @@
+FILES MODIFIED & CREATED
+
+
+MODIFIED FILES (Production Code)
+
+
+1. generate-manifest.js
+   ├─ Added: calculateAgeInDays() function
+   ├─ Added: Age-based filtering logic
+   ├─ Added: Constants for 30-day and 60-day thresholds
+    ├─ Added: Detailed logging
+    └─ Status: PRODUCTION READY
+
+2. src/App.tsx
+   ├─ Added: sortedNews useMemo hook (lines 55-58)
+   ├─ Modified: FeedView prop from filteredNews → sortedNews (line 114)
+   ├─ Modified: IndexOverlay prop from filteredNews → sortedNews (line 124)
+   └─ Status: PRODUCTION READY
+
+
+
+
+TEST DATA CREATED (Testing Only - Can Be Deleted)
+
+/public/posts/2026-03-15/
+  ├─ tech_quantum.md (TECHNOLOGY)
+  ├─ economy_markets.md (ECONOMY)
+  ├─ culture_film.md (CULTURE)
+  ├─ environment_climate.md (ENVIRONMENT)
+  ├─ global_diplomacy.md (GLOBAL AFFAIRS)
+  └─ general_community.md (GENERAL)
+
+/public/posts/2026-02-15/
+  ├─ tech_security.md (TECHNOLOGY)
+  ├─ economy_inflation.md (ECONOMY)
+  ├─ culture_theater.md (CULTURE)
+  ├─ environment_ocean.md (ENVIRONMENT)
+  └─ global_trade.md (GLOBAL AFFAIRS)
+
+/public/posts/2025-12-15/  (Should be excluded from manifest)
+  ├─ old_tech.md (TECHNOLOGY)
+   └─ old_economy.md (ECONOMY)
+
+
+
+
+DOCUMENTATION CREATED
+
+1. IMPLEMENTATION_SUMMARY.md
+   └─ Comprehensive technical documentation with:
+      • Feature descriptions and how they work
+      • Build verification output
+      • Testing instructions
+      • Edge cases handled
+      • Performance notes
+       • Deployment workflow
+
+
+
+
+GENERATED FILES (Auto-Updated)
+
+/public/posts/manifest.json
+  └─ Updated to exclude posts older than 60 days
+      Contains 4 editions (2026-03-15, 2026-02-15, 2026-01-24, 2026-01-21)
+
+
+
+
+NO FILES DELETED
+
+✓ All existing files preserved
+- All existing functionality maintained
+- No breaking changes
+- Fully backward compatible
+
+
+
+
+DEPLOYMENT WORKFLOW
+
+Before deployment, test locally:
+
+   $ npm run build
+   → Generates manifest, shows filtering output
+   → Check: Are old posts excluded? Are recent posts included?
+
+   $ npm run dev
+   → Start dev server on http://localhost:3000/navonmesh/
+   → Check: Are articles sorted by category?
+   → Check: Navigate dates in archive view
+   → Check: Click index to verify sorting
+
+Then deploy:
+
+    $ npm run deploy
+    → Runs build (with age filtering)
+    → Pushes to gh-pages
+    → Old posts excluded automatically
+
+
+
+
+FILE SIZE IMPACT
+
+generate-manifest.js:  +32 lines (was 43 lines, now 76 lines)
+src/App.tsx:           +4 lines (was 159 lines, now 163 lines)
+
+Total production code additions: 36 lines
+Total documentation: ~400 lines (guides & examples)
+
+

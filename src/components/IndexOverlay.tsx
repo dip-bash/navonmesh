@@ -6,9 +6,10 @@ interface IndexOverlayProps {
   news: NewsItem[];
   onTeleport: (id: string) => void;
   onClose: () => void;
+  isLoading?: boolean;
 }
 
-const IndexOverlay: React.FC<IndexOverlayProps> = ({ news, onTeleport, onClose }) => {
+const IndexOverlay: React.FC<IndexOverlayProps> = ({ news, onTeleport, onClose, isLoading }) => {
   const handleTeleport = useCallback((id: string) => {
     if ('vibrate' in navigator) navigator.vibrate(15);
     onTeleport(id);
@@ -20,29 +21,39 @@ const IndexOverlay: React.FC<IndexOverlayProps> = ({ news, onTeleport, onClose }
   }, [onClose]);
 
   return (
-    <div className="h-full w-full bg-[#F9F9F9] flex flex-col shadow-2xl">
+    <div className="h-full w-full bg-[#F9F9F9] flex flex-col shadow-2xl" role="dialog" aria-modal="true" aria-labelledby="index-title">
       <header className="flex justify-between items-center p-8 border-b border-black/5">
         <div>
-          <h2 className="font-serif text-3xl italic">Index</h2>
+          <h2 id="index-title" className="font-serif text-3xl italic">Index</h2>
           <p className="font-sans text-[10px] tracking-[0.2em] uppercase opacity-40">Today's Briefing</p>
         </div>
         <button 
           onClick={handleClose}
-          className="bg-black text-white font-sans text-[10px] font-bold uppercase tracking-widest px-6 py-3 rounded-full shadow-xl active:scale-90 transition-transform"
+          className="bg-black text-white font-sans text-[10px] font-bold uppercase tracking-widest px-6 py-3 rounded-full shadow-xl active:scale-90 transition-transform focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-white"
+          aria-label="Close index and return to feed"
         >
           Close
         </button>
       </header>
 
-      <div className="flex-1 overflow-y-auto px-8 py-10 space-y-12 pb-32">
-        {news.length > 0 ? (
+      <div className="flex-1 overflow-y-auto px-8 py-10 space-y-12 pb-32" role="list" aria-label="Articles index">
+        {isLoading ? (
+          <div className="h-full flex flex-col items-center justify-center">
+            <div className="text-center space-y-4">
+              <div className="w-12 h-12 border-2 border-black/20 border-t-black rounded-full animate-spin mx-auto" />
+              <p className="font-serif italic text-lg opacity-50">Loading articles...</p>
+            </div>
+          </div>
+        ) : news.length > 0 ? (
           news.map((item, index) => (
             <button 
               key={item.id}
               onClick={() => handleTeleport(item.id)}
-              className="w-full text-left group flex gap-6 items-start active:bg-black/[0.03] p-2 -m-2 rounded-xl transition-colors"
+              className="w-full text-left group flex gap-6 items-start active:bg-black/[0.03] p-2 -m-2 rounded-xl transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-black"
+              role="listitem"
+              aria-label={`${item.title} - ${item.category} - ${item.readTime}`}
             >
-              <span className="font-serif text-3xl opacity-10 group-active:opacity-100 transition-all duration-300 transform group-active:translate-x-1">
+              <span className="font-serif text-3xl opacity-10 group-active:opacity-100 transition-all duration-300 transform group-active:translate-x-1" aria-hidden="true">
                 {String(index + 1).padStart(2, '0')}
               </span>
               <div className="flex-1 border-b border-gray-100 pb-8 group-last:border-none">
@@ -54,14 +65,14 @@ const IndexOverlay: React.FC<IndexOverlayProps> = ({ news, onTeleport, onClose }
                 </h3>
                 <div className="flex items-center gap-2 mt-3 opacity-40">
                   <span className="font-sans text-[10px] uppercase font-bold tracking-tighter">Reading Time</span>
-                  <span className="w-1 h-1 bg-black rounded-full"></span>
+                  <span className="w-1 h-1 bg-black rounded-full" aria-hidden="true"></span>
                   <span className="font-sans text-[10px] uppercase font-medium">{item.readTime}</span>
                 </div>
               </div>
             </button>
           ))
         ) : (
-          <div className="h-full flex flex-col items-center justify-center opacity-30 text-center px-10">
+          <div className="h-full flex flex-col items-center justify-center opacity-30 text-center px-10" role="status" aria-live="polite">
             <p className="font-serif italic text-xl mb-2">The index is empty.</p>
             <p className="font-sans text-[10px] uppercase tracking-widest">No articles found for this date.</p>
           </div>
