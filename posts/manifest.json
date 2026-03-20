@@ -1,6 +1,26 @@
 {
   "editions": [
     {
+      "date": "2026-03-20",
+      "articles": [
+        "01_nvidia_gtc_2026.md",
+        "02_openai_revenue_ipo.md",
+        "03_gemini_flash_lite.md",
+        "04_mckinsey_ai_hiring_agents.md",
+        "05_us_ai_accountability_act.md",
+        "06_nvidia_acquires_groq.md",
+        "07_ai_job_automation_report.md",
+        "08_amazon_ring_facial_recognition.md",
+        "09_dragos_ot_threat_report.md",
+        "10_darksword_spyware_ukraine.md",
+        "11_att_connected_spaces_aws.md",
+        "12_micron_q2_earnings.md",
+        "13_ai_chip_emissions.md",
+        "14_ibm_quantum_advantage_2026.md",
+        "15_qci_luminar_acquisition.md"
+      ]
+    },
+    {
       "date": "2026-03-15",
       "articles": [
         "culture_film.md",
