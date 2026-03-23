@@ -1,6 +1,31 @@
 {
   "editions": [
     {
+      "date": "2026-03-23",
+      "articles": [
+        "01_openai_gpt54_mini_nano.md",
+        "02_apple_siri_delay.md",
+        "03_block_ai_layoffs.md",
+        "04_wayve_series_d_robotaxi.md",
+        "05_meta_ai_layoffs.md",
+        "06_doj_iot_botnet_takedown.md",
+        "07_trivy_supply_chain_attack.md",
+        "08_langflow_rce_exploit.md",
+        "09_cisa_apple_craftcms_patches.md",
+        "10_oracle_identity_manager_rce.md",
+        "11_magento_defacement_campaign.md",
+        "12_samsung_gemini_800m_devices.md",
+        "13_nvidia_state_of_ai_2026.md",
+        "14_ibm_stock_anthropic_cobol.md",
+        "15_iqm_spac_nasdaq_listing.md",
+        "16_ionq_130m_revenue_skywater.md",
+        "17_lattice_sealsq_pqc_fpga.md",
+        "18_quantum_chip_gpu_simulation.md",
+        "19_pasqal_spac_nasdaq.md",
+        "20_edge_ai_cobots_humanoid_robots.md"
+      ]
+    },
+    {
       "date": "2026-03-20",
       "articles": [
         "01_nvidia_gtc_2026.md",
@@ -49,19 +74,6 @@
         "nvidia.md",
         "openai.md",
         "vibe_coding.md"
-      ]
-    },
-    {
-      "date": "2026-01-21",
-      "articles": [
-        "OpenAIvsAnthropic.md",
-        "anthropic.md",
-        "cyber.md",
-        "intel.md",
-        "nvidia.md",
-        "nvidiartx.md",
-        "openai.md",
-        "tsmc.md"
       ]
     }
   ]
